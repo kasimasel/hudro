@@ -1,0 +1,62 @@
+#define svet_porog 345
+#define svet_porog2 250
+#define zaderzhka 800
+#define in1 8
+#define in2 9
+#define in3 10
+#define in4 11
+#define LED_PIN 5
+
+int svet;
+boolean night=false;
+void setup() {
+  Serial.begin(9600);
+  pinMode(in1,OUTPUT);
+  pinMode(in2,OUTPUT);
+  pinMode(in3,OUTPUT);
+  pinMode(in4,OUTPUT);
+  pinMode(LED_PIN, OUTPUT);
+  night-false;
+}
+
+void loop() {
+  svet=analogRead(A0);
+  if ( svet > svet_porog ) {
+    digitalWrite(in1,LOW);
+    digitalWrite(in2,HIGH);
+    }
+  else {
+    digitalWrite(in1,LOW);
+    digitalWrite(in2,LOW);
+    night=false;
+    digitalWrite(in3,LOW);
+    digitalWrite(in4,LOW);
+    }
+  //if (svet>svet_porog) 
+  Serial.println(svet);
+  if ( (svet < svet_porog2) and not night ) {
+    digitalWrite(in3,HIGH);
+    digitalWrite(in4,LOW);
+    delay(zaderzhka);
+    night=true;
+//    digitalWrite(in3,LOW);
+//    digitalWrite(in4,LOW);
+    for(int i=0;i<=500;i++) {
+       analogWrite(LED_PIN, i);
+       delay(5); 
+    }
+    delay(5000);
+    for (int i=500;i>=0;i--) {
+       analogWrite(LED_PIN, i);
+       delay(5); // ставим задержку для эффекта
+   }
+    
+    
+    }
+  else {
+    digitalWrite(in1,LOW);
+    digitalWrite(in2,LOW);
+    }
+  //if (svet>svet_porog) 
+  Serial.println(svet);
+}
